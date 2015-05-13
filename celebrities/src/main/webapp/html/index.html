@@ -8,10 +8,12 @@
 
 <!-- Stylesheets -->
 <link rel="stylesheet" type="text/css" href="../bower_components/normalize.css/normalize.css" />
-<link rel="stylesheet" type="text/css" href="../css/style.css" />
+<link rel="stylesheet" type="text/css" href="../bower_components/foundation/css/foundation.css" />
+<link rel="stylesheet" type="text/css" href="../css/styles.css" />
 
 <!-- Scripts -->
 <script type="text/javascript" src="../bower_components/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="../bower_components/underscore/underscore-min.js"></script>
 
 <!-- JSON object -->
 <script type="text/javascript" src="../js/celebrity-rich-list.js"></script>
@@ -21,16 +23,61 @@
 </head>
 <body>
 
-<div>
-  <header class="fillable">
+<div class="page-content">
+  <header id="header" class="text-center">
     <h1 data-content="pageTitleH1"></h1>
     <h2 data-content="pageTitleH2"></h2>
     <span data-content="description"></span>
     <aside>
-      <span></span>
+      <span>Reference: </span>
       <a data-link="referenceLink" data-content="referenceLink"></a>
     </aside>
   </header>
+
+  <section class="search-fields">
+
+    <div class="row">
+      <div class="column small-12 medium-6">
+        <label>Birthplace:</label>
+        <select id="birthplace" data-on="option.item:first">
+          <option value="">Show All</option>
+          <option class="item"></option>
+        </select>
+      </div>
+      <div class="column small-12 medium-6">
+        <label>Currency Converter:</label>
+        <select id="converter">
+          <option data-content-value="usDollarValue">US Dollar</option>
+          <option data-content-value="euroValue">Euro</option>usDollarValue
+          <option data-content-value="australianDollarValue">Australian Dollar</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="column small-12 medium-6">
+        <label>Search:</label>
+        <input type="text">
+      </div>
+      <div class="column small-12 medium-6">
+        <label>Order by:</label>
+        <input type="text">
+      </div>
+    </div>
+
+  </section>
+
+  <section id="celebrities" class="celebrities" data-each="celebrityList" data-on="article:first" data-include-value="true">
+
+    <article class="text-center">
+      <h3><span>No.</span> <span data-content="rank"></span></h3>
+      <span data-content="name" class="row"></span>
+      <span data-content="netWorth" class="row"></span>
+      <span data-content="age" class="row"></span>
+      <span data-content="country" class="row"></span>
+    </article>
+
+  </section>
 
 </div>
 
