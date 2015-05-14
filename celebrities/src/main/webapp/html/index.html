@@ -24,7 +24,7 @@
 <body>
 
 <div class="page-content">
-  <header id="header" class="text-center">
+  <header id="header" class="text-center hide">
     <h1 data-content="pageTitleH1"></h1>
     <h2 data-content="pageTitleH2"></h2>
     <span data-content="description"></span>
@@ -47,9 +47,9 @@
       <div class="column small-12 medium-6">
         <label>Currency Converter:</label>
         <select id="converter">
-          <option data-content-value="usDollarValue">US Dollar</option>
-          <option data-content-value="euroValue">Euro</option>usDollarValue
-          <option data-content-value="australianDollarValue">Australian Dollar</option>
+          <option data-currency-label="$USD" data-content-value="usDollarValue">US Dollar</option>
+          <option data-currency-label="EUR" data-content-value="euroValue">Euro</option>usDollarValue
+          <option data-currency-label="$AUD" data-content-value="australianDollarValue">Australian Dollar</option>
         </select>
       </div>
     </div>
@@ -57,11 +57,15 @@
     <div class="row">
       <div class="column small-12 medium-6">
         <label>Search:</label>
-        <input type="text">
+        <input id="search" type="text">
       </div>
       <div class="column small-12 medium-6">
         <label>Order by:</label>
-        <input type="text">
+        <select id="sort-by">
+          <option value="rank">Rank</option>
+          <option value="name">Name</option>
+          <option value="age">Age</option>
+        </select>
       </div>
     </div>
 
@@ -71,10 +75,23 @@
 
     <article class="text-center">
       <h3><span>No.</span> <span data-content="rank"></span></h3>
-      <span data-content="name" class="row"></span>
-      <span data-content="netWorth" class="row"></span>
-      <span data-content="age" class="row"></span>
-      <span data-content="country" class="row"></span>
+      <div class="row">
+        <span>Name: 
+        <span data-content="name"></span></span>
+      </div>
+      <div class="row">
+        <span>Net Worth: </span>
+        <span class="currency">$USD</span>
+        <span data-content="netWorth" data-format="currency"></span>
+      </div>
+      <div class="row">  
+        <span>Age: </span>
+        <span data-content="age"></span>
+      </div>
+      <div class="row">
+        <span>Country of Birth: </span>
+        <span data-content="country"></span>
+      </div>
     </article>
 
   </section>

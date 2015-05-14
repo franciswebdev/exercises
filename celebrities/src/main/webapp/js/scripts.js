@@ -9,7 +9,6 @@ $(document).ready(function(e) {
 
   // we could use angularjs here instead
   // but using jQuery for now
-
   
   // populate header content
   Page.fillContent($('#header'), pageData);
@@ -21,16 +20,17 @@ $(document).ready(function(e) {
   Page.fillList($birthplace, _.sortBy(countries, function (s) { return s; }));
   $birthplace.change(function(e) {
     var $this = $(this);
-    var value = $this.val();
+    var value = $this.val().toLowerCase();
 
     var $entries = $celebrities.find('article');
     if (value == "") {
       $entries.removeClass('filtered-country');
     } else {
-      $entries.addClass('filtered-country').filter('[data-value-country="' + $this.val() + '"]').removeClass('filtered-country');
+      $entries.addClass('filtered-country').filter('[data-value-country="' + value + '"]').removeClass('filtered-country');
     }
   });
 
+  // Currency converter field
   var $converter = $('#converter');
   Page.fillContent($converter, pageData);
   $converter.change(function(e) {
@@ -40,9 +40,45 @@ $(document).ready(function(e) {
     $entries = $celebrities.find('article');
     $entries.each(function(i, o) {
       var $o = $(o);
-      $o.find('span[data-content=netWorth]').text( parseFloat($o.attr('data-value-networth') * conversion));
+      $o.find('span.currency').text($this.find('> option:selected').data('currency-label'));
+      var $money = $o.find('span[data-content=netWorth]')
+      $money.text(parseFloat($o.attr('data-value-networth') * conversion));
+      $money.digits();
     })
   })
+
+  // Search field
+  var $search = $('#search');
+  $search.keyup(function(e) {
+    var $this = $(this);
+    var value = $this.val();
+
+    var $entries = $celebrities.find('article');
+    if (value == "") {
+      $entries.removeClass('filtered-name-age');
+    } else {
+      $entries.addClass('filtered-name-age').filter('[data-value-name*="' + value + '"], [data-value-age*="' + value + '"]')
+        .removeClass('filtered-name-age');
+    }
+
+  });
+
+  // Sort field
+  var $sortBy = $('#sort-by');
+  $sortBy.change(function(e) {
+    var $this = $(this);
+    var value = $this.val();
+
+    var $entries = $celebrities.find('article');
+    $entries.sort(function(a, b){
+      var an = $(a).data('value-' + value),
+        bn = $(b).data('value-' + value);
+      return an > bn ? 1 : an < bn ? -1 : 0;
+    });
+
+    $entries.detach().appendTo($celebrities);
+
+  });
 
   // fill in content 
   var $celebrities = $('#celebrities');
@@ -62,6 +98,12 @@ var Page = {
       var content = $this.data('content');
       if (content) {
         $this.text(data[content]);
+
+        // any special formatting?
+        var format = $this.data('format');
+        if (format == 'currency') {
+          $this.digits()
+        }
       }
 
       // if this a link, just populate href
@@ -80,7 +122,7 @@ var Page = {
       // if includeValue has a value, store data as an attribute to $this
       // this is to make it easier for jQuery selectors to find this item during sorting and filtering
       if (includeValue) {
-        $article.attr('data-value-' + content, data[content]);
+        $article.attr('data-value-' + content, (new String(data[content]).toLowerCase()));
       }
 
       
@@ -109,4 +151,11 @@ var Page = {
       
     }
   }
+}
+
+// Some StackOverflow plugin that looks useful for formatting
+$.fn.digits = function(){ 
+    return this.each(function(){ 
+        $(this).text( $(this).text().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") ); 
+    })
 }

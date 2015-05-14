@@ -5,18 +5,20 @@ Celebrities CSS
 ****************/
 
 .page-content {
-	margin: 0 auto;
-	max-width: 800px;
+  margin: 0 auto;
+  max-width: 800px;
 }
 
 .page-content > * {
-	margin-bottom: 2rem;
+  margin-bottom: 2rem;
 }
 
 .celebrities h3 {
-	background-color: lightblue;
+  background-color: lightblue;
 }
 
-.filtered-country {
-	display: none;
+.filtered-country, 
+.filtered-name-age {
+  display: none;
 }
+
